@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use Illuminate\Contracts\Validation\ValidatorAwareRule;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
@@ -13,17 +16,42 @@ class PostController extends Controller
         return Post::all();
     }
 
-    public function createPost(Request $request): array
+    public function createPost(Request $request): JsonResponse
     {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                "title" => "required",
+                "description" => "required"
+            ],
+            [
+                "title.required" => "لطفا عنوان مقاله خود را وارد کنید.",
+                "description.required" => "لطفا محتوای مقاله خود را وارد کنید"
+            ]
+        );
+
+        if($validator->fails()) {
+            return response() -> json(
+                [
+                    "success" => false,
+                    "message" => $validator->errors()->first()
+                ],
+                400
+            );
+        }
+
         $post = Post::create([
             "title" => $request->title,
+            "description" => $request->description,
         ]);
 
-        return [
-            "success" => true,
-            "message" => "پست جدید با موفقیت ایجاد شد",
-            "post" => $post
-        ];
+        return response() -> json(
+            [
+                "success" => true,
+                "message" => "پست جدید با موفقیت ایجاد شد",
+                "post" => $post
+            ],
+        );
     }
 
     public function getPostDetail($id): array
