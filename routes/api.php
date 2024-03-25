@@ -14,4 +14,6 @@ Route::post("add_post",[PostController::class,"createPost"]);
 Route::get("posts/{id}",[PostController::class,"getPostDetail"]);
 Route::put("edit-post/{id}",[PostController::class,"updatePost"]);
 Route::delete("delete-post/{id}",[PostController::class,"deletePost"]);
+
+
 Route::get("categories",[CategoryController::class,"getPosts"]);

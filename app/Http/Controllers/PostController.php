@@ -56,7 +56,7 @@ class PostController extends Controller
 
     public function getPostDetail($id): array
     {
-        $post = Post::with("category")->find($id);
+        $post = Post::with("category","comments.user")->find($id);
         return [
             "success" => true,
             "post" => $post
