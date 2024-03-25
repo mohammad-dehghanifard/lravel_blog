@@ -17,7 +17,6 @@ class PostController extends Controller
     {
         $post = Post::create([
             "title" => $request->title,
-            "description" => $request->description,
         ]);
 
         return [
@@ -33,6 +32,30 @@ class PostController extends Controller
         return [
             "success" => true,
             "post" => $post
+        ];
+    }
+
+    public function updatePost($id,Request $request): array
+    {
+        Post::findOrFail($id)-> update(
+            [
+               "title" => $request->title,
+               "description" => $request->description,
+            ]
+        );
+
+        return [
+          "success" => true,
+          "message" => "پست با موفقیت ویرایش شد"
+        ];
+    }
+
+    public function deletePost($id): array
+    {
+        Post::findOrFail($id) -> delete();
+        return [
+          "success" => true,
+          "message" => "پست مورد نظر با موفقیت حذف شد"
         ];
     }
 }
