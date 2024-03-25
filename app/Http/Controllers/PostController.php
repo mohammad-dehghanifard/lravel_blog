@@ -2,30 +2,37 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    public function getAllPosts(): array
+    public function getAllPosts(): Collection
     {
-        return [
-            [
-                "id" => 1,
-                "title" => "test"
-            ],
-            [
-                "id" => 1,
-                "title" => "test"
-            ]
-        ];
-   }
-
-    public function createPost(Request $request): string
-    {
-        return "post title : $request->title";
+        return Post::all();
     }
-    public function getPostDetail($id): string
+
+    public function createPost(Request $request): array
     {
-        return "post id : $id";
+        $post = Post::create([
+            "title" => $request->title,
+            "description" => $request->description,
+        ]);
+
+        return [
+            "success" => true,
+            "message" => "پست جدید با موفقیت ایجاد شد",
+            "post" => $post
+        ];
+    }
+
+    public function getPostDetail($id): array
+    {
+        $post = Post::find($id);
+        return [
+            "success" => true,
+            "post" => $post
+        ];
     }
 }
