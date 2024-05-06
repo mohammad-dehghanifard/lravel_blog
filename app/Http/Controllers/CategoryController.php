@@ -69,4 +69,16 @@ class CategoryController extends Controller
             ]
         );
     }
+
+    public function deleteCategory($id): JsonResponse
+    {
+        Category::findOrFail($id) -> delete();
+
+        return response()->json(
+            [
+                "success" => true,
+                "message" => "دسته بندی مورد نظر با موفقیت حذف شد"
+            ]
+        );
+    }
 }
