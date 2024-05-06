@@ -11,7 +11,7 @@ class Post extends Model
 {
     use HasFactory;
 
-    protected $fillable = ["title","description","like_count","is_published"];
+    protected $fillable = ["title","description","like_count","is_published","category_id"];
 
     public function category(): BelongsTo
     {

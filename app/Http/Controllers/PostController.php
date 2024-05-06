@@ -43,6 +43,7 @@ class PostController extends Controller
         $post = Post::create([
             "title" => $request->title,
             "description" => $request->description,
+            "category_id" => $request->category_id
         ]);
 
         return response() -> json(

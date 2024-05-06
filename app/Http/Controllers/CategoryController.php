@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+
+
     public function getPosts(): JsonResponse
     {
         $data = Category::with("posts")->get();
