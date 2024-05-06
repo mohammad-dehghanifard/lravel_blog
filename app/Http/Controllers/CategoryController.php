@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use http\Env\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
@@ -17,5 +19,40 @@ class CategoryController extends Controller
             "success" => true,
             "data" => $data
         ]);
+    }
+
+    public function createCategory(Request $request): JsonResponse
+    {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                "title" => "required"
+            ],
+            [
+                "title.required" => "وارد کردن عنوان الزامی میباشد"
+            ]
+        );
+
+        if($validator->fails())
+        {
+            return response()->json(
+                [
+                    "success" => false,
+                    "message" => $validator->errors()->first()
+                ]
+            );
+        }
+
+        $category = Category::create([
+            "title" => $request->title
+        ]);
+
+        return  response() -> json(
+            [
+                "success" => true,
+                "category" => $category,
+                "message" => "دسته بندی مورد نظر با موفقیت ایجاد شد"
+            ]
+        );
     }
 }
