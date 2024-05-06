@@ -18,3 +18,4 @@ Route::delete("delete-post/{id}",[PostController::class,"deletePost"]);
 
 Route::get("categories",[CategoryController::class,"getPosts"]);
 Route::post("create-category",[CategoryController::class,"createCategory"]);
+Route::put("update-category/{id}",[CategoryController::class,"updateCategory"]);

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use http\Env\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -52,6 +51,21 @@ class CategoryController extends Controller
                 "success" => true,
                 "category" => $category,
                 "message" => "دسته بندی مورد نظر با موفقیت ایجاد شد"
+            ]
+        );
+    }
+
+    public function updateCategory($id,Request $request): JsonResponse
+    {
+        $category = Category::findOrFail($id) -> update(
+            [
+                "title" => $request->title
+            ]
+        );
+        return response()->json(
+            [
+                "success" => true,
+                "message" => "دسته بندی مورد نظر با موفقیت ویرایش شد"
             ]
         );
     }
