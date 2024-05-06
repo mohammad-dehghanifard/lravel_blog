@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Tag;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -56,7 +57,7 @@ class PostController extends Controller
 
     public function getPostDetail($id): array
     {
-        $post = Post::with("category","comments.user")->find($id);
+        $post = Post::with("category","comments.user","tags")->find($id);
         return [
             "success" => true,
             "post" => $post
@@ -85,5 +86,16 @@ class PostController extends Controller
           "success" => true,
           "message" => "پست مورد نظر با موفقیت حذف شد"
         ];
+    }
+
+    public function getTagsPost($id): JsonResponse
+    {
+        $tag = Tag::with("posts")->findOrFail($id);
+        return response()->json(
+            [
+                "success" => true,
+                "data" => $tag
+            ]
+        );
     }
 }
